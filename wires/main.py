@@ -19,7 +19,7 @@ for file in files:
         num = np.max(cut_wire)
         wire_width = np.sum(wire, axis=1)
         wire_width = len(wire_width[wire_width != 0])
-        if wire_width == 2:
+        if wire_width < 3:
             print(f"Провод {wire_idx} разорван в клочья!")
         elif num > 1:
             print(f"Провод {wire_idx} разделен на {num} кусков")
