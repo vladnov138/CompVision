@@ -78,7 +78,6 @@ def normalize(chain):
 
 
 def check_images(normal_chain1, normal_chain2) -> bool:
-    normal_chain2 = normal_chain2[:]
     for i in range(len(normal_chain1)):
         if normal_chain1 == normal_chain2:
             return True
