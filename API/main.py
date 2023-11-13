@@ -1,4 +1,6 @@
 import socket
+from copy import copy
+
 import numpy as np
 from matplotlib import pyplot as plt
 from skimage.measure import regionprops, label
@@ -34,12 +36,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 
         img = np.frombuffer(bts[2:40002], dtype="uint8").reshape(bts[0], bts[1])
 
-        # pos1 = np.unravel_index(np.argmax(img), img.shape)
-        bin_img = img
+        pos1 = np.unravel_index(np.argmax(img), img.shape)
+        bin_img = copy(img)
         bin_img[bin_img > 0] = 1
         labelled = label(bin_img)
-        pos1 = centroid(labelled, 1)
-        pos2 = centroid(labelled, 2)
+        clear_label = labelled[pos1]
+        img[labelled == clear_label] = 0
+        # pos1 = centroid(labelled, 1)
+        # pos2 = centroid(labelled, 2)
+        pos2 = np.unravel_index(np.argmax(img), img.shape)
+        print(pos1, pos2)
         res = round(np.sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2), 1)
         print(res)
         # res = np.abs(np.array(pos1) - np.array(pos2))
