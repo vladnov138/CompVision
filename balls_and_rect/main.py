@@ -11,18 +11,19 @@ regions = regionprops(labelled)
 
 balls_colors = {}
 rects_colors = {}
-
+rects = 0
+balls = 0
 for region in regions:
     color = hsv[region.bbox[0]:region.bbox[2], region.bbox[1]:region.bbox[3], 0]
     # Проверка цвета угла
     key = np.max(color[0])
     if np.all(color[0][0] != 0):
+        rects += 1
         rects_colors[key] = rects_colors.get(key, 0) + 1
     else:
+        balls += 1
         balls_colors[key] = balls_colors.get(key, 0) + 1
 
-rects = np.sum(list(rects_colors.values()))
-balls = np.sum(list(balls_colors.values()))
 print(f"Всего фигур: {rects + balls}")
 print(f"Всего цветов: {len(np.unique(list(rects_colors) + list(balls_colors)))}")
 print("#=====================================================#")
